@@ -13,4 +13,8 @@ class Category extends Model
     {
         return $this->hasMany(Account::class);
     }
+    protected $fillable = [
+    'name',
+    'slug'
+];
 }

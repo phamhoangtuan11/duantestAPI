@@ -12,4 +12,10 @@ public function category()
 {
     return $this->belongsTo(Category::class);
 }
+protected $fillable = [
+    'title',
+    'username',
+    'price',
+    'category_id'
+];
 }

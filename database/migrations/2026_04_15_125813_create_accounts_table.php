@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            // $table->string('name');
+            $table->string('title');
             $table->string('username'); //tên đăng nhập
             $table->string('password')->nullable(); //nếu cần
             $table->string('price');
