@@ -98,6 +98,7 @@
 <div class="sidebar">
     <h4>🔥 ADMIN</h4>
     <a href="{{ route('admin.accounts') }}">📦Accounts</a>
+    <a href="{{ route('admin.categories.index') }}">📦Categories</a>
     <a href="/admin/services">🛠 Services</a>
     <a href="#">👤 Users</a>
 </div>
@@ -115,4 +116,9 @@
 </div>
 
 </body>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</html>
 </html>
