@@ -11,11 +11,19 @@ class AccountController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $accounts = Account::with('category')->get();
-        return response()->json($accounts);
+    public function index(Request $request)
+{
+    $query = Account::with('category');
+
+    // nếu có category thì lọc
+    if ($request->category) {
+        $query->whereHas('category', function ($q) use ($request) {
+            $q->where('slug', $request->category);
+        });
     }
+
+    return response()->json($query->get());
+}
 
     /**
      * Store a newly created resource in storage.

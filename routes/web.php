@@ -3,36 +3,35 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\AccountController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HomeController;
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
+|-------------------------------------------------------------------------- 
+| Web Routes 
+|-------------------------------------------------------------------------- 
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::get('/accounts', [AccountController::class, 'index']);
-Route::get('/dashboard', function () {
 
-    // nếu là admin → chuyển sang admin panel
+// Đăng nhập đăng ký phân quyền
+Route::get('/dashboard', function () {
+    // Nếu là admin → chuyển sang admin panel
     if (auth()->user()->role === 'admin') {
         return redirect()->route('admin.dashboard');
     }
 
-    // user thường
-    return view('dashboard');
-
+    // Dành cho user bình thường
+    return view('dashboard');  // Hiển thị trang Dashboard cho user
 })->middleware(['auth'])->name('dashboard');
-require __DIR__.'/auth.php';
+
+// Route trang chủ
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Các routes còn lại
+Route::get('/accounts', [AccountController::class, 'index']);
+
+require __DIR__ . '/auth.php';
