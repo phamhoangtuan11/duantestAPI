@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Models\ServiceRequest;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -12,7 +13,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            ServiceRequest::query()
+                ->where('status', 'done')
+                ->where('updated_at', '<', now()->subDays(90))
+                ->delete();
+        })
+            ->name('delete-old-completed-service-requests')
+            ->dailyAt('02:00')
+            ->withoutOverlapping();
     }
 
     /**

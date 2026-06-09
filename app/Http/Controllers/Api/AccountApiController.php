@@ -8,9 +8,10 @@ use App\Models\Account;
 
 class AccountApiController extends Controller
 {
- public function index(Request $request)
+public function index(Request $request)
 {
-    $query = \App\Models\Account::with('category');
+    $query = \App\Models\Account::with('category')
+        ->where('status', '!=', 'sold'); // 🔥 THÊM DÒNG NÀY
 
     // FILTER CATEGORY
     if ($request->category) {

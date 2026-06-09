@@ -20,38 +20,55 @@
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+<div class="hidden sm:flex sm:items-center sm:ms-6">
+    @auth
+        <x-dropdown align="right" width="48">
 
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </button>
-                    </x-slot>
+            <x-slot name="trigger">
+                <button class="mmo-user-btn">
 
-                    <x-slot name="content">
-                        <!-- Sửa đường dẫn 'profile.edit' -->
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
+                    <div class="mmo-avatar">
+                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                    </div>
 
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
+                    <div class="mmo-user-info">
+                        <span>{{ Auth::user()->name }}</span>
+                        <small>Thành viên</small>
+                    </div>
 
-                            <!-- Sửa đường dẫn 'logout' -->
-                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
-            </div>
+                    <svg class="mmo-arrow" xmlns="http://www.w3.org/2000/svg"
+                         fill="none" viewBox="0 0 24 24"
+                         stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+                    </svg>
+
+                </button>
+            </x-slot>
+
+            <x-slot name="content">
+                <x-dropdown-link :href="route('profile.edit')">
+                    👤 Hồ sơ
+                </x-dropdown-link>
+
+                <x-dropdown-link :href="url('/')">
+                    🏠 Trang chủ
+                </x-dropdown-link>
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <x-dropdown-link :href="route('logout')"
+                        onclick="event.preventDefault(); this.closest('form').submit();">
+                        🚪 Đăng xuất
+                    </x-dropdown-link>
+                </form>
+            </x-slot>
+
+        </x-dropdown>
+    @endauth
+</div>
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
@@ -100,3 +117,85 @@
         </div>
     </div>
 </nav>
+<style>
+    /* MMO USER */
+.mmo-user-btn{
+    display:flex;
+    align-items:center;
+    gap:14px;
+
+    background:rgba(15,23,42,.92);
+
+    border:1px solid rgba(255,255,255,.06);
+
+    padding:10px 16px;
+
+    border-radius:18px;
+
+    transition:.25s;
+
+    backdrop-filter:blur(12px);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.25);
+
+    color:white;
+}
+
+.mmo-user-btn:hover{
+    transform:translateY(-2px);
+
+    border-color:#3b82f6;
+
+    box-shadow:
+        0 0 25px rgba(59,130,246,.25);
+}
+
+/* AVATAR */
+.mmo-avatar{
+    width:46px;
+    height:46px;
+
+    border-radius:16px;
+
+    background:
+        linear-gradient(135deg,#3b82f6,#7c3aed);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:18px;
+    font-weight:700;
+
+    color:white;
+
+    box-shadow:
+        0 0 20px rgba(59,130,246,.35);
+}
+
+/* INFO */
+.mmo-user-info{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+.mmo-user-info span{
+    font-size:15px;
+    font-weight:700;
+    color:white;
+}
+
+.mmo-user-info small{
+    color:#94a3b8;
+    font-size:12px;
+}
+
+/* ARROW */
+.mmo-arrow{
+    width:18px;
+    height:18px;
+    color:#94a3b8;
+}
+</style>

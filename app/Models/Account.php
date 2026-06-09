@@ -18,4 +18,8 @@ protected $fillable = [
     'price',
     'category_id'
 ];
+public function orders()
+{
+    return $this->hasMany(Order::class);
+}
 }

@@ -24,8 +24,8 @@ class CategoryController extends Controller
     }
 
     public function update(Request $request, $id){
-        $category = Category::find0rFail($id);
-        $category-> update($request->all());
+        $category = Category::findOrFail($id);
+        $category->update($request->all());
         return back()->with('success', 'cập nhật thành công');
     }
 

@@ -48,5 +48,9 @@
                 {{ __('Register') }}
             </x-primary-button>
         </div>
+        <div class="auth-switch">
+    Đã có tài khoản?
+    <a href="{{ route('login') }}">Đăng nhập</a>
+</div>
     </form>
 </x-guest-layout>
