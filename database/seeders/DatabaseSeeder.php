@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
+    /** Tạo hoặc cập nhật tài khoản admin mặc định cho môi trường phát triển. */
     public function run(): void
     {
         User::updateOrCreate(

@@ -268,6 +268,7 @@
             info: { title: 'Thông báo', icon: 'fa-info' }
         };
 
+        // API thông báo dùng chung: tạo toast, tự đóng và hỗ trợ nhiều loại trạng thái.
         window.mmoToast = (message, type = 'info', options = {}) => {
             const normalizedType = toastMeta[type] ? type : 'info';
             const meta = toastMeta[normalizedType];
@@ -302,6 +303,7 @@
 
         window.mmoNotify = window.mmoToast;
 
+        // API xác nhận bất đồng bộ thay cho confirm mặc định của trình duyệt.
         window.mmoConfirm = (message, options = {}) => new Promise(resolve => {
             confirmTitle.textContent = options.title ?? 'Xác nhận thao tác';
             confirmMessage.textContent = String(message);
@@ -312,6 +314,7 @@
             setTimeout(() => confirmAccept.focus(), 150);
         });
 
+        // Đóng hộp xác nhận và trả kết quả về nơi đã gọi mmoConfirm.
         const closeConfirm = result => {
             confirmDialog.classList.remove('show');
             confirmDialog.setAttribute('aria-hidden', 'true');
@@ -334,6 +337,7 @@
             }
         });
 
+        // Tự động chặn các form có data-confirm để hỏi xác nhận trước khi submit.
         document.addEventListener('submit', async event => {
             const form = event.target.closest('form[data-confirm]');
 
@@ -353,6 +357,7 @@
 
         window.alert = message => window.mmoToast(message, 'info');
 
+        // Chuyển flash session và lỗi validation từ Laravel thành toast.
         const flashes = @json($notificationFlashes);
 
         flashes.filter(item => item.message).forEach((item, index) => {

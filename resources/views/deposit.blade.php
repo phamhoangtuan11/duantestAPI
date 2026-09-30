@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <title>Nạp tiền tự động | MMO</title>
     <style>
         :root {
@@ -31,7 +34,7 @@
                 radial-gradient(circle at 13% 8%, rgba(37, 99, 235, .19), transparent 28%),
                 radial-gradient(circle at 88% 88%, rgba(124, 58, 237, .17), transparent 30%),
                 var(--bg);
-            font-family: "Segoe UI", Arial, sans-serif;
+            font-family: 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
         }
 
         body::before {
@@ -630,6 +633,7 @@
     @include('components.mmo-notifications')
 
     <script>
+        // Sao chép một giá trị vào clipboard và hiển thị thông báo kết quả.
         async function copyValue(value, label) {
             try {
                 await navigator.clipboard.writeText(value);
@@ -639,6 +643,7 @@
             }
         }
 
+        // Sao chép mã chuyển khoản cá nhân và đổi trạng thái nút tạm thời.
         async function copyTransferCode(button) {
             const code = document.getElementById("transferCode").innerText.trim();
             const initialContent = button.innerHTML;

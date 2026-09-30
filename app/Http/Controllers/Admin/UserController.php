@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    /** Hiển thị danh sách người dùng để admin quản lý. */
     public function index()
     {
         $users = User::all();
@@ -17,6 +18,7 @@ class UserController extends Controller
     }
 
     // cộng tiền
+    /** Cộng số dư thủ công cho một người dùng. */
     public function addMoney(Request $request, $id)
     {
         $user = User::find($id);
@@ -46,6 +48,7 @@ class UserController extends Controller
         ]);
     }
     // trừ tiền
+    /** Trừ số dư người dùng nhưng không cho phép số dư âm. */
     public function minusMoney(Request $request, $id)
     {
         $request->validate([

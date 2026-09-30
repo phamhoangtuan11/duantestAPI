@@ -5,12 +5,16 @@
     <meta charset="UTF-8">
     <title>Acc đã mua</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <style>
         body {
             margin: 0;
             background: #060c1a;
             color: #e2e8f0;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
         }
 
         .container-box {
@@ -217,6 +221,7 @@
     </div>
 
     <script>
+        // Ẩn hoặc hiện mật khẩu tài khoản đã mua trong đúng hàng hiện tại.
         function togglePass(btn) {
             const span = btn.parentElement.querySelector(".pass");
 
@@ -225,6 +230,7 @@
                 "******";
         }
 
+        // Sao chép mật khẩu đã bàn giao vào clipboard.
         function copyPass(pass) {
             navigator.clipboard.writeText(pass);
             window.mmoToast("Đã copy password!", "success");

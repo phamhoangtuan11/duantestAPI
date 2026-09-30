@@ -8,6 +8,10 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <style>
         body {
             margin: 0;
@@ -17,7 +21,7 @@
                 url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600');
             background-size: cover;
             background-position: center;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
             color: white;
             overflow: hidden;
         }

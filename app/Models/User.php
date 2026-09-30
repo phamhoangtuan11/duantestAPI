@@ -45,6 +45,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    /** Toàn bộ đơn hàng thuộc riêng người dùng này. */
     public function orders()
 {
     return $this->hasMany(Order::class);

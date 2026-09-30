@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 class ProfileUpdateRequest extends FormRequest
 {
     /**
-     * Get the validation rules that apply to the request.
+     * Quy tắc kiểm tra dữ liệu cập nhật hồ sơ và ảnh đại diện.
      *
      * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */

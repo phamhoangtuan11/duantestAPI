@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <title>Thanh toán tài khoản | MMO</title>
     <style>
         :root {
@@ -31,7 +34,7 @@
                 radial-gradient(circle at 15% 10%, rgba(37, 99, 235, .18), transparent 27%),
                 radial-gradient(circle at 88% 85%, rgba(124, 58, 237, .16), transparent 30%),
                 var(--bg);
-            font-family: "Segoe UI", Arial, sans-serif;
+            font-family: 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
         }
 
         body::before {
@@ -646,6 +649,7 @@
     @include('components.mmo-notifications')
 
     <script>
+        // Gửi yêu cầu mua tài khoản, khóa nút trong lúc xử lý và chuyển đến lịch sử đơn.
         async function pay(id) {
             const button = document.getElementById("payBtn");
             const initialContent = button.innerHTML;

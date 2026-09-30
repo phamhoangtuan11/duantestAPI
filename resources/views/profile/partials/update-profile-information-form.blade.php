@@ -85,6 +85,7 @@
 </section>
 
 <script>
+    // Xem trước ảnh đại diện ngay trên trình duyệt trước khi người dùng lưu form.
     document.getElementById("avatar")?.addEventListener("change", function (event) {
         const file = event.target.files?.[0];
         const preview = document.getElementById("avatarPreview");

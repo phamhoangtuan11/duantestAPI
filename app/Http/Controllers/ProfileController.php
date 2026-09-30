@@ -12,9 +12,7 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
+    /** Hiển thị hồ sơ của người dùng đang đăng nhập. */
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -23,7 +21,8 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
+     * Cập nhật tên, email và ảnh đại diện.
+     * Khi đổi email hệ thống bỏ trạng thái xác minh; khi đổi avatar sẽ xóa ảnh cũ.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
@@ -49,9 +48,7 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    /**
-     * Delete the user's account.
-     */
+    /** Xóa tài khoản sau khi xác minh mật khẩu và dọn ảnh đại diện đã lưu. */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [

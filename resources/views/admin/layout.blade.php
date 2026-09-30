@@ -7,7 +7,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
@@ -17,7 +19,7 @@
 
         body {
             margin: 0;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
             background:
                 radial-gradient(circle at top left, rgba(59, 130, 246, .18), transparent 35%),
                 radial-gradient(circle at bottom right, rgba(124, 58, 237, .18), transparent 35%),
@@ -138,6 +140,7 @@
             width: 46px;
             height: 46px;
             border-radius: 50%;
+            overflow: hidden;
             background: linear-gradient(135deg, #2563eb, #9333ea);
             display: flex;
             align-items: center;
@@ -145,6 +148,13 @@
             color: white;
             font-weight: 800;
             box-shadow: 0 0 25px rgba(59, 130, 246, .38);
+        }
+
+        .admin-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .admin-user span {
@@ -316,7 +326,7 @@
 
         <div class="admin-logo">
             <div class="admin-logo-icon">
-                <i class="fa-solid fa-bolt"></i>
+                <i class="fa-solid fa-headset"></i>
             </div>
 
             <div>
@@ -369,7 +379,12 @@
 
             <div class="admin-user">
                 <div class="admin-avatar">
-                    {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
+                    @if (auth()->user()?->avatar)
+                        <img src="{{ asset('storage/' . auth()->user()->avatar) }}"
+                            alt="Ảnh đại diện của {{ auth()->user()->name ?? 'Admin' }}">
+                    @else
+                        {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
+                    @endif
                 </div>
 
                 <div>

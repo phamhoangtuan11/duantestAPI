@@ -9,7 +9,7 @@ use App\Models\Account;
 class AccountController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Trả danh sách tài khoản dưới dạng JSON, hỗ trợ lọc theo danh mục.
      */
     public function index(Request $request)
 {
@@ -26,7 +26,7 @@ class AccountController extends Controller
 }
 
     /**
-     * Store a newly created resource in storage.
+     * Tạo tài khoản mới qua API sau khi kiểm tra dữ liệu đầu vào.
      */
     public function store(Request $request)
 {
@@ -50,7 +50,7 @@ class AccountController extends Controller
 }
 
     /**
-     * Display the specified resource.
+     * Điểm mở rộng trả chi tiết tài khoản; hiện chưa triển khai.
      */
     public function show(string $id)
     {
@@ -58,7 +58,7 @@ class AccountController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Cập nhật tài khoản và trả lỗi 404 nếu không tồn tại.
      */
     public function update(Request $request, string $id)
     {
@@ -87,7 +87,7 @@ class AccountController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Xóa tài khoản và trả lỗi 404 nếu không tồn tại.
      */
     public function destroy(string $id)
     {

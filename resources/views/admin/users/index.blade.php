@@ -64,6 +64,7 @@
             width: 44px;
             height: 44px;
             border-radius: 15px;
+            overflow: hidden;
             background: linear-gradient(135deg, #3b82f6, #7c3aed);
             display: flex;
             align-items: center;
@@ -71,6 +72,13 @@
             font-weight: 800;
             color: white;
             box-shadow: 0 0 20px rgba(59, 130, 246, .35)
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .user-name {
@@ -199,7 +207,12 @@
                         <td>
                             <div class="user-info">
                                 <div class="user-avatar">
-                                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                                    @if ($user->avatar)
+                                        <img src="{{ asset('storage/' . $user->avatar) }}"
+                                            alt="Ảnh đại diện của {{ $user->name }}">
+                                    @else
+                                        {{ strtoupper(substr($user->name, 0, 1)) }}
+                                    @endif
                                 </div>
 
                                 <div>
@@ -286,6 +299,7 @@
     </div>
 
     <script>
+        // Đọc và kiểm tra số tiền admin nhập cho một người dùng.
         function getAmount(userId) {
             let amount = document.getElementById("amount_" + userId).value;
 
@@ -297,6 +311,7 @@
             return amount;
         }
 
+        // Gọi API admin để cộng số dư người dùng.
         function addMoney(userId) {
             let amount = getAmount(userId);
             if (!amount) return;
@@ -318,6 +333,7 @@
                 });
         }
 
+        // Xác nhận rồi gọi API admin để trừ số dư người dùng.
         async function minusMoney(userId) {
             let amount = getAmount(userId);
             if (!amount) return;

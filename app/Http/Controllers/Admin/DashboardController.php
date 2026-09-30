@@ -10,6 +10,7 @@ use App\Models\Order;
 
 class DashboardController extends Controller
 {
+    /** Tổng hợp số liệu toàn hệ thống để hiển thị trên dashboard admin. */
     public function index()
     {
         return view('admin.dashboard', [

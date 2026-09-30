@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
 {
+    // Bảng ticket lưu thông tin yêu cầu dịch vụ và trạng thái xử lý.
     Schema::create('service_requests', function (Blueprint $table) {
 
         $table->id();

@@ -8,9 +8,7 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-    /**
-     * Define the application's command schedule.
-     */
+    /** Lịch tự động xóa ticket đã hoàn thành quá 90 ngày vào 02:00 mỗi ngày. */
     protected function schedule(Schedule $schedule): void
     {
         $schedule->call(function () {

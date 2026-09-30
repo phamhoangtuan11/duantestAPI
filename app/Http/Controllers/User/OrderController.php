@@ -10,6 +10,10 @@ use App\Models\Order;
 
 class OrderController extends Controller
 {
+/**
+ * Luồng mua hàng cũ tạo đơn pending.
+ * Giao diện checkout hiện thanh toán qua Api\OrderApiController::buy().
+ */
    public function buy($id)
 {
     try {
@@ -58,15 +62,20 @@ class OrderController extends Controller
         ], 500);
     }
 }
+/** Hiển thị trang xác nhận thanh toán cho tài khoản được chọn. */
 public function checkout($id)
 {
     $account = Account::findOrFail($id);
 
     return view('checkout', compact('account'));
 }
+/** Chỉ lấy lịch sử đơn hàng thuộc người dùng đang đăng nhập. */
 public function myOrders()
 {
-    $orders = Order::latest()->get(); // tạm lấy tất cả
+    $orders = auth()->user()
+        ->orders()
+        ->latest()
+        ->get();
 
     return view('orders', compact('orders'));
 }

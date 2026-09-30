@@ -14,10 +14,12 @@ use App\Http\Controllers\ServiceRequestController;
 |-------------------------------------------------------------------------- 
 */
 
+// KHU VỰC CÁ NHÂN: chỉ người dùng đã đăng nhập mới được truy cập.
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('orders.index');
 });
 
 // Đăng nhập đăng ký phân quyền
@@ -32,15 +34,16 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 // Route trang chủ
+// TRANG CHỦ VÀ DANH SÁCH TÀI KHOẢN CÔNG KHAI.
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Các routes còn lại
 Route::get('/accounts', [AccountController::class, 'index']);
 // 
+// THANH TOÁN: hiển thị trang xác nhận; thao tác mua thực tế gọi API có auth.
 Route::get('/checkout/{id}', [OrderController::class, 'checkout']);
-//  
-Route::get('/my-orders', [OrderController::class, 'myOrders']);
 // thanh toán nạp tiền
+// NẠP TIỀN: trang hướng dẫn và endpoint cộng số dư hiện tại.
 Route::get('/deposit', [DepositController::class, 'index']);
 Route::post('/deposit', [DepositController::class, 'store']); 
 
@@ -62,5 +65,6 @@ Route::get('/service/{platform}/{slug}', function ($platform, $slug) {
 
 });
 //  dịch vụ yêu cầu hỗ trợ
+// TẠO TICKET HỖ TRỢ TỪ HỘI THOẠI DỊCH VỤ.
 Route::post('/service-request', [ServiceRequestController::class, 'store']);
 require __DIR__ . '/auth.php';

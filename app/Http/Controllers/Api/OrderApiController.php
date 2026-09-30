@@ -11,6 +11,12 @@ use Illuminate\Support\Facades\DB;
 
 class OrderApiController extends Controller
 {
+/**
+ * Mua tài khoản trong transaction.
+ *
+ * lockForUpdate ngăn hai người mua cùng một tài khoản. Giao dịch sẽ kiểm tra
+ * số dư, trừ tiền, đánh dấu tài khoản đã bán và lưu thông tin bàn giao.
+ */
  public function buy($id)
 {
     if (!Auth::check()) {

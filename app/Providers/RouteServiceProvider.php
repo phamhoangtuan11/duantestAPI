@@ -19,13 +19,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const HOME = '/';
 
-    /**
-     * Define your route model bindings, pattern filters, and other route configuration.
-     */
+    /** Đăng ký rate limit API và nạp các nhóm route của dự án. */
     public function boot(): void
 {
     parent::boot(); 
 
+    // Mỗi user hoặc IP được gọi tối đa 60 request API mỗi phút.
     RateLimiter::for('api', function (Request $request) {
         return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
     });

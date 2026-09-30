@@ -28,7 +28,12 @@
                 <button class="mmo-user-btn">
 
                     <div class="mmo-avatar">
-                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                        @if (Auth::user()->avatar)
+                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}"
+                                alt="Ảnh đại diện của {{ Auth::user()->name }}">
+                        @else
+                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                        @endif
                     </div>
 
                     <div class="mmo-user-info">
@@ -157,6 +162,7 @@
     height:46px;
 
     border-radius:16px;
+    overflow:hidden;
 
     background:
         linear-gradient(135deg,#3b82f6,#7c3aed);
@@ -172,6 +178,13 @@
 
     box-shadow:
         0 0 20px rgba(59,130,246,.35);
+}
+
+.mmo-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
 }
 
 /* INFO */

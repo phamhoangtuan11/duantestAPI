@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ServiceRequestController;
 
 
+// TOÀN BỘ ROUTE TRONG NHÓM NÀY CHỈ DÀNH CHO ADMIN.
 Route::middleware(['auth', 'checkrole:admin'])
     ->prefix('admin')
     ->name('admin.')
@@ -63,6 +64,8 @@ Route::middleware(['auth', 'checkrole:admin'])
             )->latest()->take(50)->get()->reverse()->values();
         });
     });
+// CẢNH BÁO: hai route ticket phía dưới hiện nằm ngoài nhóm auth/admin.
+// Cần kiểm tra quyền sở hữu ticket trước khi triển khai production.
 Route::get('/service-ticket/{id}/messages', function (\Illuminate\Http\Request $request, $id) {
 
     $ticket = \App\Models\ServiceRequest::findOrFail($id);

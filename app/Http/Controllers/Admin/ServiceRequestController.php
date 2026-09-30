@@ -9,6 +9,7 @@ use App\Models\ServiceMessage;
 
 class ServiceRequestController extends Controller
 {
+    /** Hiển thị danh sách ticket kèm người gửi và tổng số tin nhắn. */
     // DANH SÁCH TICKET
     public function adminIndex()
     {
@@ -31,6 +32,7 @@ class ServiceRequestController extends Controller
 
         return back()->with('success', 'Đã hoàn thành yêu cầu');
     }
+    /** Chỉ xóa ticket đã hoàn thành; tin nhắn liên quan được xóa theo cascade. */
     public function destroy($id)
     {
         $ticket = ServiceRequest::findOrFail($id);
@@ -44,6 +46,7 @@ class ServiceRequestController extends Controller
         return back()->with('success', 'Đã xóa ticket và toàn bộ tin nhắn liên quan.');
     }
 
+    /** Mở chi tiết ticket cùng toàn bộ hội thoại và thông tin người dùng. */
     public function show($id)
 {
     $request = \App\Models\ServiceRequest::with(['user', 'messages.user'])->findOrFail($id);
@@ -51,6 +54,7 @@ class ServiceRequestController extends Controller
     return view('admin.serviceRequests.show', compact('request'));
 }
 
+/** Lưu phản hồi của admin và chuyển ticket đang chờ sang trạng thái xử lý. */
 public function reply(Request $requestData, $id)
 {
     $requestData->validate([

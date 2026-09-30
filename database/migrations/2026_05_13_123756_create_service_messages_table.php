@@ -8,6 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // Bảng hội thoại của ticket, hỗ trợ ba loại người gửi: user, admin và AI.
         Schema::create('service_messages', function (Blueprint $table) {
 
             $table->id();

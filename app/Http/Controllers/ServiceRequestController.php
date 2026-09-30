@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class ServiceRequestController extends Controller
 {
+    /**
+     * Tạo ticket hỗ trợ và lưu toàn bộ hội thoại ban đầu trong một transaction.
+     * Transaction bảo đảm ticket và tin nhắn được tạo đồng bộ.
+     */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -57,6 +61,7 @@ class ServiceRequestController extends Controller
             'latest_message_id' => $latestMessageId,
         ]);
     }
+    /** Danh sách ticket hỗ trợ; chức năng admin cũ, hiện route admin dùng controller riêng. */
     public function adminIndex()
     {
         $requests = ServiceRequest::latest()->get();
@@ -64,6 +69,7 @@ class ServiceRequestController extends Controller
         return view('admin.serviceRequests.index', compact('requests'));
     }
 
+    /** Đánh dấu ticket hoàn thành; chức năng admin cũ. */
     public function markDone($id)
     {
         $request = ServiceRequest::findOrFail($id);

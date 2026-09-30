@@ -8,11 +8,16 @@ use Illuminate\Support\Facades\Auth;
 
 class DepositController extends Controller
 {
+/** Hiển thị trang hướng dẫn nạp tiền và mã chuyển khoản cá nhân. */
    public function index()
 {
     return view('deposit');
 }
 
+/**
+ * Cộng số dư trực tiếp từ request.
+ * Cảnh báo: chỉ nên dùng khi đã có bước xác minh giao dịch từ ngân hàng/admin.
+ */
 public function store(Request $request)
 {
     $amount = $request->amount;

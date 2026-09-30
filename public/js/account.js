@@ -2,12 +2,14 @@ const csrf = document
     .querySelector('meta[name="csrf-token"]')
     ?.getAttribute("content");
 
+// Chuyển dữ liệu không tin cậy thành text an toàn trước khi chèn vào HTML.
 function escapeHtml(value = "") {
     const element = document.createElement("div");
     element.textContent = String(value);
     return element.innerHTML;
 }
 
+// Chọn icon tương ứng với nền tảng của tài khoản.
 function accountPlatformIcon(platform = "") {
     const normalized = platform.toLowerCase();
 
@@ -18,6 +20,7 @@ function accountPlatformIcon(platform = "") {
     return "fas fa-box";
 }
 
+// Cập nhật trạng thái nút bộ lọc đang được chọn.
 function setActiveAccountFilter(activeButton) {
     if (!activeButton) return;
 
@@ -26,6 +29,7 @@ function setActiveAccountFilter(activeButton) {
     });
 }
 
+// Hiển thị trạng thái tải dữ liệu, danh sách trống hoặc lỗi.
 function renderAccountState(message, loading = false) {
     const accountList = document.getElementById("account-list");
 
@@ -45,6 +49,7 @@ function renderAccountState(message, loading = false) {
     `;
 }
 
+// Tạo HTML cho một card tài khoản từ dữ liệu API.
 function renderAccountCard(account, index) {
     const category = account.category?.name || "Tài khoản MMO";
     const isSold = Number(account.status) === 1;
@@ -88,6 +93,7 @@ function renderAccountCard(account, index) {
     `;
 }
 
+// Gọi API lấy danh sách tài khoản và render lại khu vực tài khoản.
 async function loadAccounts(category = "", activeButton = null) {
     setActiveAccountFilter(activeButton);
     renderAccountState("Đang tải danh sách tài khoản...", true);
@@ -126,6 +132,7 @@ async function loadAccounts(category = "", activeButton = null) {
     }
 }
 
+// Hiển thị trạng thái chuyển trang trước khi mở checkout.
 function goToCheckout(id, button) {
     if (button) {
         button.classList.add("loading");
@@ -137,6 +144,7 @@ function goToCheckout(id, button) {
     }, 350);
 }
 
+// Hàm mua trực tiếp qua API; hiện giao diện chính chuyển qua trang checkout.
 async function buyAccount(id) {
     try {
         const response = await fetch(`/api/buy-account/${id}`, {

@@ -3,12 +3,16 @@
 
 <head>
     <title>Dịch vụ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body {
             background: #050816;
             color: white;
-            font-family: Arial;
+            font-family: 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
             padding: 40px;
         }
 
@@ -335,8 +339,25 @@
             box-shadow: 0 0 20px rgba(99, 102, 241, .38);
         }
 
-        .bubble {
+        .message-content {
             max-width: 70%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .msg.user .message-content {
+            align-items: flex-end;
+        }
+
+        .sender-label {
+            margin: 0 0 6px;
+            color: #c4b5fd;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: .3px;
+        }
+
+        .bubble {
             padding: 15px 18px;
             border-radius: 20px;
             background: rgba(30, 41, 59, .88);
@@ -548,16 +569,22 @@
             <div class="chat-body" id="chatBox">
                 <div class="msg ai">
                     <div class="avatar">AI</div>
-                    <div class="bubble">
-                        <strong>Xin chào 👋</strong>
-                        <p>Tôi là trợ lý AI. Tôi sẽ hỏi vài thông tin để nhân viên xử lý nhanh hơn.</p>
+                    <div class="message-content">
+                        <div class="sender-label">AI hỗ trợ</div>
+                        <div class="bubble">
+                            <strong>Xin chào 👋</strong>
+                            <p>Tôi là trợ lý AI. Tôi sẽ hỏi vài thông tin để nhân viên xử lý nhanh hơn.</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="msg ai">
                     <div class="avatar">AI</div>
-                    <div class="bubble">
-                        <p>Bạn đang gặp vấn đề gì với tài khoản?</p>
+                    <div class="message-content">
+                        <div class="sender-label">AI hỗ trợ</div>
+                        <div class="bubble">
+                            <p>Bạn đang gặp vấn đề gì với tài khoản?</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -573,8 +600,7 @@
         const input = document.getElementById('userInput');
         const chatBox = document.getElementById('chatBox');
         const userName = @json(auth()->user()->name ?? 'Bạn');
-        const conversationMessages = [
-            {
+        const conversationMessages = [{
                 sender: 'ai',
                 message: 'Xin chào. Tôi là trợ lý AI. Tôi sẽ hỏi vài thông tin để nhân viên xử lý nhanh hơn.'
             },
@@ -596,10 +622,11 @@
             "Bạn còn giữ email hoặc số điện thoại liên kết tài khoản không?",
             "Tài khoản bị lỗi trong trường hợp nào? Ví dụ: checkpoint, bị hack, bị khóa 282...",
             "Bạn vui lòng gửi link Facebook hoặc UID để nhân viên kiểm tra.",
-            "Tôi đã ghi nhận thông tin. Nhân viên sẽ tiếp nhận và liên hệ xử lý sớm nhất."
+            "Tôi đã ghi nhận thông tin. Vấn đề của bạn đã được chuyển đến một nhóm chuyên trách đang tích cực xử lý. Chúng tôi sẽ liên hệ lại với bạn ngay khi họ có thông tin cập nhật về trường hợp của bạn."
         ];
 
         // HIỂN THỊ CHAT
+        // Thêm một tin nhắn mới vào hội thoại và tránh render trùng theo messageId.
         function appendMessage(type, text, messageId = null, forceScroll = false) {
             if (messageId && chatBox.querySelector(`[data-message-id="${messageId}"]`)) {
                 return null;
@@ -616,13 +643,19 @@
                 lastMessageId = Math.max(lastMessageId, Number(messageId));
             }
 
-            const displayName = type === 'ai' ? 'AI' : (type === 'admin' ? 'ADMIN' : userName);
+            const displayName = type === 'ai' ? 'AI' : (type === 'admin' ? '&#127911;' : userName);
+            const senderLabel = type === 'ai' ?
+                '<div class="sender-label">AI hỗ trợ</div>' :
+                (type === 'admin' ? '<div class="sender-label">Nhân viên hỗ trợ</div>' : '');
 
             row.innerHTML = `
             <div class="avatar">${displayName}</div>
 
-            <div class="bubble">
-                <p>${text}</p>
+            <div class="message-content">
+                ${senderLabel}
+                <div class="bubble">
+                    <p>${text}</p>
+                </div>
             </div>
         `;
 
@@ -649,6 +682,7 @@
         }
 
         // NÚT NHANH
+        // Điền và gửi nhanh nội dung từ các nút gợi ý.
         function quickSend(text) {
 
             input.value = text;
@@ -657,6 +691,7 @@
         }
 
         // HIỆU ỨNG AI
+        // Mô phỏng hiệu ứng AI đang nhập trước khi hiện nội dung hoàn chỉnh.
         function showTyping(text) {
 
             const typing = document.createElement('div');
@@ -666,8 +701,11 @@
             typing.innerHTML = `
             <div class="avatar">AI</div>
 
-            <div class="bubble">
+            <div class="message-content">
+                <div class="sender-label">AI hỗ trợ</div>
+                <div class="bubble">
                 <p>Đang phân tích...</p>
+                </div>
             </div>
         `;
 
@@ -685,6 +723,7 @@
         }
 
         // TẠO TICKET
+        // Tạo ticket hỗ trợ từ toàn bộ thông tin và hội thoại đã thu thập.
         async function createServiceRequest() {
 
             try {
@@ -749,6 +788,7 @@
                 );
             }
         }
+        // Tải toàn bộ lịch sử của ticket khi người dùng mở lại cuộc hội thoại.
         async function loadOldTicket(ticketId) {
 
             try {
@@ -799,7 +839,7 @@
 
                 } else {
 
-                    appendMessage('ai', '🟡 Ticket đang được nhân viên xử lý.');
+                    appendMessage('ai', 'Ticket đang được nhân viên xử lý. Cảm ơn bạn đã kiên nhẫn chờ đợi..');
                 }
 
                 if (data.ticket.status !== 'done') {
@@ -822,6 +862,7 @@
             }
         }
         // hàm lắng nghe tin nhắn mới từ sẻver
+        // Chỉ tải các tin nhắn mới hơn lastMessageId để tránh nháy toàn bộ hội thoại.
         async function reloadTicketMessages(ticketId) {
             if (pollInFlight) {
                 return;
@@ -884,6 +925,7 @@
             }
         }
 
+        // Bắt đầu polling định kỳ để nhận tin nhắn mới từ admin.
         function startPolling(ticketId) {
             if (pollingTimer) clearTimeout(pollingTimer);
 
@@ -892,6 +934,7 @@
             }, 2000);
         }
         //  hàm lưu tin nhắn của user vào ticket
+        // Lưu tin nhắn người dùng vào ticket và cập nhật trạng thái tạm trên giao diện.
         async function saveUserMessage(message, pendingRow = null) {
             const ticketId = localStorage.getItem('current_service_ticket');
 
@@ -971,6 +1014,7 @@
         });
 
         // UPDATE QUY TRÌNH
+        // Điều khiển các bước hỏi đáp tự động của bot hỗ trợ.
         function updateWorkflow(step) {
 
             // STEP 1

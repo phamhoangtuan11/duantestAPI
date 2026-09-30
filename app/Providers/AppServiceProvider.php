@@ -21,7 +21,8 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Chia sẻ thống kê tổng quan cho toàn bộ view thuộc khu vực admin.
+     * Nhờ đó sidebar/layout admin có thể dùng số liệu mà không truy vấn lại ở từng view.
      */
     public function boot(): void
     {

@@ -85,8 +85,25 @@
             justify-content: flex-end;
         }
 
-        .chat-bubble {
+        .chat-message-content {
+            display: flex;
+            flex-direction: column;
             max-width: 75%;
+        }
+
+        .chat-msg.admin .chat-message-content {
+            align-items: flex-end;
+        }
+
+        .chat-sender-label {
+            margin: 0 0 6px;
+            color: #c4b5fd;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .3px;
+        }
+
+        .chat-bubble {
             padding: 14px 16px;
             border-radius: 16px;
             line-height: 1.6;
@@ -189,11 +206,19 @@
 
                 @foreach ($request->messages as $message)
                     <div class="chat-msg {{ $message->sender }}">
-                        <div class="chat-bubble">
+                        <div class="chat-message-content">
+                            @if ($message->sender === 'admin')
+                                <div class="chat-sender-label">Nhân viên hỗ trợ</div>
+                            @elseif ($message->sender === 'ai')
+                                <div class="chat-sender-label">AI hỗ trợ</div>
+                            @endif
+
+                            <div class="chat-bubble">
                             {!! nl2br(e($message->message)) !!}
                             <span class="chat-meta">
                                 {{ $message->sender === 'user' ? ($request->user->name ?? 'Khách') : strtoupper($message->sender) }} • {{ $message->created_at }}
                             </span>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -228,20 +253,24 @@
     const ticketUserName = @json($request->user->name ?? 'Khách');
 
     // auto scroll xuống cuối
+    // Cuộn hội thoại admin xuống tin nhắn mới nhất.
     function scrollBottom() {
         adminChatBox.scrollTop = adminChatBox.scrollHeight;
     }
 
+    // Kiểm tra admin có đang đọc gần cuối hội thoại hay không.
     function isNearBottom() {
         return adminChatBox.scrollHeight - adminChatBox.scrollTop - adminChatBox.clientHeight < 80;
     }
 
+    // Mã hóa nội dung trước khi chèn vào DOM để hạn chế XSS.
     function escapeHtml(value) {
         const element = document.createElement('div');
         element.textContent = value;
         return element.innerHTML;
     }
 
+    // Chuyển dữ liệu tin nhắn cũ thành định dạng hiển thị tương thích.
     function expandLegacyMessage(message) {
         if (message.sender !== 'user' || !/\b(?:AI|YOU)\s+/.test(message.message)) {
             return [message];
@@ -267,6 +296,7 @@
     }
 
     // render message
+    // Nối các tin nhắn mới vào hội thoại mà không render lại toàn bộ danh sách.
     function appendMessages(messages, forceScroll = false) {
         const shouldScroll = forceScroll || isNearBottom();
 
@@ -277,12 +307,17 @@
 
             const senderName = msg.sender === 'user'
                 ? ticketUserName
-                : msg.sender.toUpperCase();
+                : (msg.sender === 'admin' ? 'Nhân viên hỗ trợ' : 'AI hỗ trợ');
+            const senderLabel = msg.sender === 'admin'
+                ? '<div class="chat-sender-label">Nhân viên hỗ trợ</div>'
+                : (msg.sender === 'ai' ? '<div class="chat-sender-label">AI hỗ trợ</div>' : '');
             const row = document.createElement('div');
 
             row.className = `chat-msg ${msg.sender}`;
             row.dataset.messageId = msg.id;
             row.innerHTML = `
+                <div class="chat-message-content">
+                    ${senderLabel}
                     <div class="chat-bubble">
 
                         ${escapeHtml(msg.message).replace(/\n/g, '<br>')}
@@ -294,6 +329,7 @@
                         </span>
 
                     </div>
+                </div>
             `;
 
             adminChatBox.appendChild(row);
@@ -306,6 +342,7 @@
     }
 
     // load tin nhắn realtime
+    // Polling API để admin nhận các tin nhắn mới từ người dùng.
     async function loadAdminMessages() {
         if (adminPollInFlight) {
             return;

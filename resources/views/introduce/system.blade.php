@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -78,8 +81,12 @@
             </div>
 
             <div class="astronaut-wrap">
-                <div class="astronaut-body">🧑‍🚀</div>
-                <div class="jet"></div>
+                <div class="flight-path flight-path-one"></div>
+                <div class="flight-path flight-path-two"></div>
+                <div class="astronaut" aria-label="Phi hành gia đang bay về phía giải ngân hà">
+                    <img src="{{ asset('images/cosmic/astronaut-realistic.png') }}"
+                        alt="Phi hành gia đang bay về phía giải ngân hà">
+                </div>
             </div>
         </section>
 
@@ -94,7 +101,7 @@
             background: #02030f;
             color: #fff;
             overflow-x: hidden;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
         }
 
         .space-page {
@@ -354,30 +361,197 @@
 
         .astronaut-wrap {
             position: relative;
-            width: 350px;
-            height: 350px;
-            animation: astronautFly 5.5s ease-in-out infinite;
+            width: 420px;
+            height: 420px;
+            perspective: 1100px;
+            transform-style: preserve-3d;
+            isolation: isolate;
         }
 
-        .astronaut-body {
+        .astronaut-wrap::before {
+            content: "";
             position: absolute;
-            inset: 0;
-            display: grid;
-            place-items: center;
-            font-size: 230px;
-            filter: drop-shadow(0 0 45px rgba(160, 95, 255, 0.9));
-        }
-
-        .jet {
-            position: absolute;
-            left: 70px;
-            bottom: 90px;
-            width: 90px;
-            height: 22px;
+            inset: 8%;
+            z-index: -1;
             border-radius: 50%;
-            background: linear-gradient(90deg, transparent, #6df0ff, #a855ff);
-            filter: blur(8px);
-            animation: jetPulse 0.55s ease-in-out infinite alternate;
+            background: radial-gradient(circle, rgba(126, 91, 255, .3), transparent 68%);
+            filter: blur(22px);
+            animation: destinationPulse 3.2s ease-in-out infinite;
+        }
+
+        .astronaut {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 310px;
+            height: 390px;
+            transform-style: preserve-3d;
+            filter: drop-shadow(0 24px 30px rgba(0, 0, 0, .62)) drop-shadow(0 0 28px rgba(117, 210, 255, .26));
+            animation: astronautVoyage 8s cubic-bezier(.45, .05, .55, .95) infinite;
+            will-change: transform;
+        }
+
+        .astronaut img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+            user-select: none;
+            filter: saturate(.92) contrast(1.04);
+        }
+
+        .astronaut::after {
+            content: "";
+            position: absolute;
+            inset: 21% 13% 8%;
+            z-index: -1;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(103, 223, 255, .22), rgba(125, 79, 255, .11) 48%, transparent 72%);
+            filter: blur(24px);
+            animation: suitAura 3.8s ease-in-out infinite;
+        }
+
+        .astronaut-head {
+            position: absolute;
+            z-index: 5;
+            left: 36px;
+            top: 6px;
+            width: 78px;
+            height: 78px;
+            border: 8px solid #e9eef8;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #fff, #8d9bb8 72%);
+            box-shadow: inset -8px -10px 12px rgba(27, 34, 65, .3), 0 0 0 3px rgba(126, 169, 255, .22);
+        }
+
+        .astronaut-visor {
+            position: absolute;
+            inset: 9px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 32% 28%, rgba(255,255,255,.85) 0 4%, transparent 16%),
+                linear-gradient(145deg, #70e7ff, #253b83 42%, #120d35 75%);
+            box-shadow: inset -8px -8px 14px rgba(0,0,0,.55), 0 0 14px rgba(94,226,255,.55);
+        }
+
+        .astronaut-torso {
+            position: absolute;
+            z-index: 4;
+            left: 32px;
+            top: 82px;
+            width: 86px;
+            height: 102px;
+            border-radius: 28px 28px 22px 22px;
+            background: linear-gradient(115deg, #f9fbff 10%, #c8d1e4 55%, #7b88a8);
+            box-shadow: inset -12px -8px 16px rgba(39,47,78,.25);
+        }
+
+        .astronaut-panel {
+            position: absolute;
+            left: 23px;
+            top: 34px;
+            width: 42px;
+            height: 27px;
+            border-radius: 7px;
+            background: #687592;
+            box-shadow: inset 0 0 0 5px #abb6ce, 0 13px 0 -9px #ff4f8b, 13px 13px 0 -9px #59e4ff;
+        }
+
+        .astronaut-pack {
+            position: absolute;
+            z-index: 2;
+            left: 23px;
+            top: 88px;
+            width: 104px;
+            height: 88px;
+            border-radius: 24px;
+            background: linear-gradient(145deg, #aebbd4, #566480);
+            box-shadow: inset -12px -10px 14px rgba(27,32,54,.28);
+        }
+
+        .astronaut-pack span {
+            position: absolute;
+            bottom: -13px;
+            width: 26px;
+            height: 28px;
+            border-radius: 8px;
+            background: #596782;
+        }
+
+        .astronaut-pack span:first-child { left: 15px; }
+        .astronaut-pack span:last-child { right: 15px; }
+
+        .astronaut-arm,
+        .astronaut-leg {
+            position: absolute;
+            z-index: 3;
+            transform-origin: top center;
+            background: linear-gradient(100deg, #f8fbff, #8795b2);
+            box-shadow: inset -8px -5px 10px rgba(39,47,78,.2);
+        }
+
+        .astronaut-arm {
+            top: 96px;
+            width: 31px;
+            height: 105px;
+            border-radius: 18px;
+        }
+
+        .arm-left { left: 15px; animation: leftArmDrift 4s ease-in-out infinite; }
+        .arm-right { right: 15px; animation: rightArmDrift 4s ease-in-out infinite; }
+
+        .astronaut-leg {
+            top: 166px;
+            width: 37px;
+            height: 91px;
+            border-radius: 15px 15px 19px 19px;
+        }
+
+        .leg-left { left: 36px; transform: rotate(8deg); }
+        .leg-right { right: 36px; transform: rotate(-8deg); }
+
+        .thruster {
+            position: absolute;
+            z-index: 1;
+            top: 172px;
+            width: 25px;
+            height: 120px;
+            border-radius: 50%;
+            opacity: .85;
+            background: linear-gradient(to bottom, #fff 0%, #55eaff 15%, #735cff 45%, transparent 88%);
+            filter: blur(5px);
+            transform-origin: top center;
+            animation: thrusterPulse .28s ease-in-out infinite alternate;
+        }
+
+        .thruster::after {
+            content: "";
+            position: absolute;
+            inset: 10px -10px;
+            border-radius: inherit;
+            background: inherit;
+            filter: blur(12px);
+        }
+
+        .thruster-left { left: 39px; }
+        .thruster-right { right: 39px; animation-delay: -.14s; }
+
+        .flight-path {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: -1;
+            width: 3px;
+            height: 390px;
+            border-radius: 50%;
+            transform-origin: top;
+            background: linear-gradient(to bottom, rgba(255,255,255,.8), rgba(98,221,255,.32), transparent 72%);
+            filter: blur(1px);
+            opacity: .5;
+            animation: pathRush 1.4s linear infinite;
+        }
+
+        .flight-path-one { transform: translate(-86px, 12px) rotate(13deg); }
+        .flight-path-two { transform: translate(78px, 18px) rotate(-12deg); animation-delay: -.7s; }
         }
 
         @keyframes titlePulse {
@@ -426,28 +600,53 @@
             }
         }
 
-        @keyframes astronautFly {
-
-            0%,
-            100% {
-                transform: translateY(0) translateX(0) rotate(-12deg);
+        @keyframes astronautVoyage {
+            0%, 100% {
+                transform: translate3d(-50%, -48%, 70px) rotateX(8deg) rotateZ(-7deg) scale(1);
             }
-
-            50% {
-                transform: translateY(-34px) translateX(24px) rotate(-5deg);
+            45% {
+                transform: translate3d(-43%, -59%, -70px) rotateX(13deg) rotateZ(3deg) scale(.86);
+            }
+            70% {
+                transform: translate3d(-55%, -54%, 12px) rotateX(9deg) rotateZ(-1deg) scale(.94);
             }
         }
 
-        @keyframes jetPulse {
-            from {
-                opacity: 0.45;
-                transform: scaleX(0.75);
-            }
+        @keyframes suitAura {
+            0%, 100% { opacity: .45; transform: scale(.94); }
+            50% { opacity: .8; transform: scale(1.05); }
+        }
 
+        @keyframes leftArmDrift {
+            0%, 100% { transform: rotate(26deg); }
+            50% { transform: rotate(37deg); }
+        }
+
+        @keyframes rightArmDrift {
+            0%, 100% { transform: rotate(-26deg); }
+            50% { transform: rotate(-38deg); }
+        }
+
+        @keyframes thrusterPulse {
+            from {
+                opacity: .48;
+                transform: scaleX(.72) scaleY(.76);
+            }
             to {
                 opacity: 1;
-                transform: scaleX(1.25);
+                transform: scaleX(1.18) scaleY(1.13);
             }
+        }
+
+        @keyframes destinationPulse {
+            0%, 100% { opacity: .55; transform: scale(.92); }
+            50% { opacity: 1; transform: scale(1.08); }
+        }
+
+        @keyframes pathRush {
+            from { opacity: 0; clip-path: inset(0 0 100%); }
+            35% { opacity: .65; }
+            to { opacity: 0; clip-path: inset(100% 0 0); }
         }
 
         @media (max-width: 900px) {
@@ -474,13 +673,13 @@
             }
 
             .astronaut-wrap {
-                width: 230px;
-                height: 230px;
+                width: 300px;
+                height: 330px;
                 margin-top: 50px;
             }
 
-            .astronaut-body {
-                font-size: 150px;
+            .astronaut {
+                scale: .72;
             }
 
             .about-stats {
@@ -501,6 +700,17 @@
             opacity: 1;
             transform: scale(1);
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            .astronaut,
+            .astronaut-arm,
+            .thruster,
+            .flight-path,
+            .astronaut-wrap::before,
+            .planet {
+                animation-duration: 12s !important;
+            }
+        }
     </style>
     <script>
         const canvas = document.getElementById("spaceCanvas");
@@ -512,16 +722,19 @@ let brightStars = [];
 let backgroundStars = [];
 let shootingStars = [];
 let mouse = { x: 0, y: 0 };
+let animationFrameId;
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function resizeCanvas() {
-    w = canvas.width = window.innerWidth * window.devicePixelRatio;
-    h = canvas.height = window.innerHeight * window.devicePixelRatio;
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+    w = canvas.width = window.innerWidth * pixelRatio;
+    h = canvas.height = window.innerHeight * pixelRatio;
 
     canvas.style.width = window.innerWidth + "px";
     canvas.style.height = window.innerHeight + "px";
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    ctx.scale(pixelRatio, pixelRatio);
 
     w = window.innerWidth;
     h = window.innerHeight;
@@ -545,9 +758,12 @@ function createGalaxy() {
     const cx = w * 0.56;
     const cy = h * 0.46;
     const maxR = Math.min(w, h) * 0.48;
+    const galaxyCount = reducedMotion ? 650 : Math.min(2200, Math.max(700, Math.round((w * h) / 900)));
+    const backgroundCount = reducedMotion ? 180 : Math.min(520, Math.max(240, Math.round((w * h) / 4500)));
+    const brightCount = reducedMotion ? 70 : Math.min(210, Math.max(100, Math.round((w * h) / 10500)));
 
     // nền sao xa
-    for (let i = 0; i < 420; i++) {
+    for (let i = 0; i < backgroundCount; i++) {
         backgroundStars.push({
             x: Math.random() * w,
             y: Math.random() * h,
@@ -559,7 +775,7 @@ function createGalaxy() {
     }
 
     // bụi giải ngân hà nhiều lớp
-    for (let i = 0; i < 3200; i++) {
+    for (let i = 0; i < galaxyCount; i++) {
         const arm = i % 5;
         const r = Math.pow(Math.random(), 0.65) * maxR;
         const spin = r * 0.022;
@@ -589,7 +805,7 @@ function createGalaxy() {
     }
 
     // sao sáng trên tay xoắn
-    for (let i = 0; i < 230; i++) {
+    for (let i = 0; i < brightCount; i++) {
         const arm = i % 5;
         const r = Math.random() * maxR * 0.95;
         const spin = r * 0.022;
@@ -608,7 +824,7 @@ function createGalaxy() {
     }
 
     // sao băng
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < (reducedMotion ? 1 : 4); i++) {
         resetShootingStar({
             delay: Math.random() * 240
         });
@@ -809,11 +1025,20 @@ function animateGalaxy() {
     drawGalaxy();
     drawShootingStars();
 
-    requestAnimationFrame(animateGalaxy);
+    animationFrameId = requestAnimationFrame(animateGalaxy);
 }
 
 resizeCanvas();
 animateGalaxy();
+
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+        cancelAnimationFrame(animationFrameId);
+        return;
+    }
+
+    animateGalaxy();
+});
 
         // 
         const revealElements = document.querySelectorAll(".space-hero, .space-about");

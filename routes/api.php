@@ -9,10 +9,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// API accounts
+// API công khai cung cấp danh sách tài khoản cho trang chủ.
 Route::get('/accounts', [AccountController::class, 'index']);
 
-// BUY ACCOUNT
+// API mua tài khoản: yêu cầu phiên đăng nhập Sanctum.
 Route::middleware('auth:sanctum')->post(
     '/buy-account/{id}',
     [OrderApiController::class, 'buy']

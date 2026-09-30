@@ -9,6 +9,7 @@ class Category extends Model
 {
     use HasFactory;
 
+    /** Danh sách tài khoản bán thuộc danh mục. */
     public function accounts()
     {
         return $this->hasMany(Account::class);

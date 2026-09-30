@@ -8,6 +8,10 @@ use App\Models\Account;
 
 class AccountApiController extends Controller
 {
+/**
+ * API danh sách tài khoản chưa bán, hỗ trợ lọc theo slug danh mục.
+ * Controller này hiện không được routes/api.php sử dụng trực tiếp.
+ */
 public function index(Request $request)
 {
     $query = \App\Models\Account::with('category')

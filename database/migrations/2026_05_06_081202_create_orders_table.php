@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Đơn hàng liên kết người mua với tài khoản và lưu giá tại thời điểm mua.
         Schema::create('orders', function (Blueprint $table) {
         $table->id();
 
